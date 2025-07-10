@@ -62,6 +62,7 @@ export default function Home() {
   const [burstTime, setBurstTime] = useState<number[]>([]);
   const [timeQuantum, setTimeQuantum] = useState<number>();
   const [priorities, setPriorities] = useState<number[]>([]);
+  const [priorityMode, setPriorityMode] = useState<string>('higher');
 
   return (
     <div>
@@ -104,6 +105,7 @@ export default function Home() {
           setBurstTime={setBurstTime}
           setTimeQuantum={setTimeQuantum}
           setPriorities={setPriorities}
+          setPriorityMode={setPriorityMode}
         />
         <Output
           selectedAlgo={selectedAlgo}
@@ -111,6 +113,7 @@ export default function Home() {
           burstTime={burstTime}
           timeQuantum={timeQuantum}
           priorities={priorities}
+          priorityMode={priorityMode}
         />
       </Main>
 

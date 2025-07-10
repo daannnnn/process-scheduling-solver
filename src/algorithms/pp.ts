@@ -3,7 +3,8 @@ import { solvedProcessesInfoType, ganttChartInfoType } from '.';
 export const pp = (
   arrivalTime: number[],
   burstTime: number[],
-  priorities: number[]
+  priorities: number[],
+  higherNumberHigherPriority: boolean
 ) => {
   const processesInfo = arrivalTime
     .map((item, index) => {

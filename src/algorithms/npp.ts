@@ -3,8 +3,13 @@ import { ganttChartInfoType } from '.';
 export const npp = (
   arrivalTime: number[],
   burstTime: number[],
-  priorities: number[]
+  priorities: number[],
+  higherNumberHigherPriority: boolean,
 ) => {
+  const comparePriority = (a: number, b: number) => {
+    return higherNumberHigherPriority ? b - a : a - b;
+  };
+
   const processesInfo = arrivalTime
     .map((item, index) => {
       const job =
@@ -19,12 +24,9 @@ export const npp = (
         priority: priorities[index],
       };
     })
-    .sort((process1, process2) => {
-      if (process1.at > process2.at) return 1;
-      if (process1.at < process2.at) return -1;
-      if (process1.priority > process2.priority) return 1;
-      if (process1.priority < process2.priority) return -1;
-      return 0;
+    .sort((p1, p2) => {
+      if (p1.at !== p2.at) return p1.at - p2.at;
+      return comparePriority(p1.priority, p2.priority);
     });
 
   let finishTime: number[] = [];
@@ -65,26 +67,19 @@ export const npp = (
         finishedJobs.length !== processesInfo.length
       ) {
         const unfinishedJobs = processesInfo
-          .filter((p) => {
-            return !finishedJobs.includes(p);
-          })
+          .filter((p) => !finishedJobs.includes(p))
           .sort((a, b) => {
-            if (a.at > b.at) return 1;
-            if (a.at < b.at) return -1;
-            if (a.priority > b.priority) return 1;
-            if (a.priority < a.priority) return -1;
-            return 0;
+            if (a.at !== b.at) return a.at - b.at;
+            return comparePriority(a.priority, b.priority);
           });
         readyQueue.push(unfinishedJobs[0]);
       }
 
       // Equal-priority processes are scheduled in FCFS order.
       const rqSortedByPriority = [...readyQueue].sort((a, b) => {
-        if (a.priority > b.priority) return 1;
-        if (a.priority < b.priority) return -1;
-        if (a.at > b.at) return 1;
-        if (a.at < b.at) return -1;
-        return 0;
+        const priorityCompare = comparePriority(a.priority, b.priority);
+        if (priorityCompare !== 0) return priorityCompare;
+        return a.at - b.at;
       });
 
       const processToExecute = rqSortedByPriority[0];

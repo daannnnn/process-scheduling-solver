@@ -108,6 +108,7 @@ type InputProps = {
   setBurstTime: Dispatch<SetStateAction<number[]>>;
   setTimeQuantum: Dispatch<SetStateAction<number>>;
   setPriorities: Dispatch<SetStateAction<number[]>>;
+  setPriorityMode: Dispatch<SetStateAction<string>>;
 };
 
 const Input = (props: InputProps) => {
@@ -116,6 +117,7 @@ const Input = (props: InputProps) => {
   const [burstTime, setBurstTime] = useState('');
   const [timeQuantum, setTimeQuantum] = useState('');
   const [priorities, setPriorities] = useState('');
+  const [priorityMode, setPriorityMode] = useState('');
   const arrivalTimeRef = useRef(null);
   const burstTimeRef = useRef(null);
 
@@ -185,6 +187,7 @@ const Input = (props: InputProps) => {
     props.setBurstTime(burstTimeArr);
     props.setTimeQuantum(timeQuantumInt);
     props.setPriorities(prioritiesArr);
+    props.setPriorityMode(priorityMode);
   };
 
   const handleArrivalTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -201,6 +204,10 @@ const Input = (props: InputProps) => {
 
   const handlePrioritiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPriorities(e.target.value);
+  };
+
+  const handlePriorityModeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPriorityMode(e.target.value);
   };
 
   return (
@@ -260,6 +267,34 @@ const Input = (props: InputProps) => {
             />
           </fieldset>
         )}
+        {(selectedAlgo.value === 'NPP' || selectedAlgo.value === 'PP') && (
+          <div>
+            <fieldset>
+              <legend>Priority Mode</legend>
+
+              <label>
+                <input
+                  type="radio"
+                  value="lower"
+                  checked={priorityMode === 'lower'}
+                  onChange={handlePriorityModeChange}
+                />
+                Lower number
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  value="higher"
+                  checked={priorityMode === 'higher'}
+                  onChange={handlePriorityModeChange}
+                />
+                Higher number
+              </label>
+            </fieldset>
+          </div>
+        )}
+
         <Button>Solve</Button>
       </Form>
     </StyledInput>

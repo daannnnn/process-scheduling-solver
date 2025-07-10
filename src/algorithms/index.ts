@@ -26,8 +26,10 @@ export const solve = (
   arrivalTime: number[],
   burstTime: number[],
   timeQuantum: number,
-  priorities: number[]
+  priorities: number[],
+  higherNumberHigherPriority: boolean,
 ) => {
+  console.log(higherNumberHigherPriority)
   switch (algo) {
     case 'FCFS':
       return fcfs(arrivalTime, burstTime);
@@ -38,9 +40,9 @@ export const solve = (
     case 'RR':
       return rr(arrivalTime, burstTime, timeQuantum);
     case 'NPP':
-      return npp(arrivalTime, burstTime, priorities);
+      return npp(arrivalTime, burstTime, priorities, higherNumberHigherPriority);
     case 'PP':
-      return pp(arrivalTime, burstTime, priorities);
+      return pp(arrivalTime, burstTime, priorities, higherNumberHigherPriority);
     default:
       break;
   }

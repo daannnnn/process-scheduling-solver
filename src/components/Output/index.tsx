@@ -81,6 +81,7 @@ type OutputProps = {
   burstTime: number[];
   timeQuantum: number;
   priorities: number[];
+  priorityMode: string,
 };
 
 const Output = ({
@@ -89,6 +90,7 @@ const Output = ({
   burstTime,
   timeQuantum,
   priorities,
+  priorityMode,
 }: OutputProps) => {
   if (!arrivalTime.length || !burstTime.length) {
     return (
@@ -105,7 +107,8 @@ const Output = ({
       arrivalTime,
       burstTime,
       timeQuantum,
-      priorities
+      priorities,
+      priorityMode == 'higher',
     );
     return (
       <StyledOutput>
